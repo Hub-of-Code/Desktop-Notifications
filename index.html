@@ -1,0 +1,90 @@
+<html>
+<head><title></title></head>
+<script>
+   function push(){
+   	 if (Notification.permission === "granted"){
+   	 	var xhttp = new XMLHttpRequest();
+   	 	var s = "";
+   	 	xhttp.onreadystatechange = function(){
+   	 		if (this.readyState == 4 && this.status == 200){
+   	 		   s = this.responseText;
+   	 		   var sp1 = s.split("|||");
+   	 		   var title = "";
+   	 		   var body = "";
+   	 		   for (var cnt=0;cnt<=sp1.length-1;cnt++){
+   	 		   	  var sp2 = sp1[cnt].split("&&&");
+   	 		   	  title = sp2[0];
+   	 		   	  body = sp2[1];
+                  var options = {
+   	 		        body:body,
+   	 		        icon:'strap.png',
+   	 		        dir:'ltr'
+   	 	          };
+   	 	          var notification = new Notification(title,options);
+   	 		   }
+            }
+   	 	};
+   	 	xhttp.open("GET","receive.php?var=notify",true);
+   	 	xhttp.send();
+   	 }
+   	 else if (Notification.permission !== "granted"){
+   	 	Notification.requestPermission(function(permission){
+            if (!('permission' in window)){
+            	Notification.permission = permission
+            }
+            else if (permission === "granted"){
+             var xhttp = new XMLHttpRequest();
+   	 	     var s = "";
+   	 	     xhttp.onreadystatechange = function(){
+   	 		 if (this.readyState == 4 && this.status == 200){
+   	 		   s = this.responseText;
+   	 		   var sp1 = s.split("|||");
+   	 		   var title = "";
+   	 		   var body = "";
+   	 		   for (var cnt=0;cnt<=sp1.length-1;cnt++){
+   	 		   	  var sp2 = sp1[cnt].split("&&&");
+   	 		   	  title = sp2[0];
+   	 		   	  body = sp2[1];
+                  var options = {
+   	 		        body:body,
+   	 		        icon:'strap.png',
+   	 		        dir:'ltr'
+   	 	          };
+   	 	          var notification = new Notification(title,options);
+   	 		   }
+            }
+   	 	};
+   	 	xhttp.open("GET","receive.php?var=notify",true);
+   	 	xhttp.send();
+            }
+   	 	});
+   	 }
+   }
+</script>
+<style>
+    body{
+   	 margin-top:5vh;
+   }
+   .push{
+   	 color:white;
+   	 background-image:linear-gradient(60deg,cornflowerblue,powderblue);
+   	 border-radius:10px;
+   	 padding:10px;
+   	 font-family:tahoma;
+   	 font-weight:bold;
+   	 font-size:16px;
+   	 border:0;
+   	 cursor:hand;
+   	 transition:0.5s;
+   }
+   .push:hover{
+   	 background-image:linear-gradient(60deg,powderblue,cornflowerblue);
+   	 text-shadow:gray 2px 2px 1px;
+   	 opacity:0;
+   	 opacity:1;
+   }
+</style>
+<body>
+<!--- This is the button for activating Desktop Push notifications!---><center><button class="push" onclick="push()">Show Notifications</button></center>
+</body>
+</html>
